@@ -1,0 +1,22 @@
+#!/bin/zsh
+
+source utils
+
+MONITOR_LIST=monitor.list
+
+# read content of $CMD_LIST, expand them once (e), put them in $cmds
+monitor=${(e)"$(<$DATA/$MONITOR_LIST)"}
+# reformat $cmds: "  <symbol>  <text>;<cmd"
+monitor=`printf %s $monitor | awk -F ';' '{ printf "%2s %-5s %s;%s\n", " ", $1, $2, $3}'`
+
+choice=`printf "%s" $monitor |\
+     cut -d ";" -f 1 |\
+     fzfcmd "Monitor"`
+
+if [ -n "$choice" ]; then
+    cmd=`printf "%s" $monitor |\
+        grep --color=never "$choice;" |\
+        cut -d ";" -f 2`
+
+    fork $cmd
+fi

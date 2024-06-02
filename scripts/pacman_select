@@ -1,0 +1,22 @@
+#!/bin/zsh
+
+source utils
+
+CMD_LIST=pacman.list
+
+# read content of $CMD_LIST, expand them once (e), put them in $cmds
+cmds=${(e)"$(<$DATA/$CMD_LIST)"}
+# reformat $cmds: "  <symbol>  <text>;<cmd"
+cmds=`printf %s $cmds | awk -F ';' '{ printf "%2s %-5s %s;%s\n", " ", $1, $2, $3}'`
+
+choice=`printf "%s" $cmds |\
+     cut -d ";" -f 1 |\
+     fzfcmd "Pacman"`
+
+if [ -n "$choice" ]; then
+    cmd=`printf "%s" $cmds |\
+        grep --color=never "$choice;" |\
+        cut -d ";" -f 2`
+
+    launch_bfterm $cmd
+fi

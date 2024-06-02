@@ -1,0 +1,20 @@
+#!/bin/zsh
+
+cd `dirname $0`
+
+source utils
+
+case $1 in
+    launcher) fterm ./launcher;;
+    yay) fterm yay;;
+    # sman) fterm ~/.scripts/sman;;
+    # clip) fterm ~/.scripts/clipboard view;;
+    # run) fterm ~/.scripts/cmdrunner;;
+    # bmark) fterm ~/.scripts/bookmark query;;
+    # ffprofile) fterm ~/.scripts/browser;;
+    # search) fterm ~/.scripts/search;;
+    # ytrss) fterm ~/.scripts/ytrss view;;
+    # rename) fterm ~/.scripts/extra/rename ${@:2};;
+    # rprop) term "riverprop" ~/.config/river/scripts/riverprop;;
+    # fman) term "fileManager" lf;;
+esac

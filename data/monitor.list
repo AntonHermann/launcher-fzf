@@ -1,0 +1,5 @@
+;Arandr;arandr
+;Single;~/.screenlayout/single_screen.sh
+;2nd Screen right;~/.screenlayout/desktop_2nd_screen.sh
+;2nd Screen left (uni);~/.screenlayout/desktop_2nd_screen_uni.sh
+;3nd Screen (uni);~/.screenlayout/desktop_3_screens_uni.sh

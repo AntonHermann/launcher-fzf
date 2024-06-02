@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+source utils
+
+IPA_LIST=ipa.list
+ipa=$(<$DATA/$IPA_LIST)
+
+choice=`echo $ipa |\
+     fzfcmd "IPA"`
+ipa_symbol=`echo $choice | cut -d " " -f 1`
+
+printf "|%s|%s|" $choice $ipa_symbol
+read

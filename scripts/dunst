@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+source utils
+
+case $1 in
+    print)
+        if [[ $(dunstctl is-paused) == "true" ]]; then
+            echo "Enable notifications "
+        else
+            echo "Disable notifications 󱙍"
+        fi
+        ;;
+    toggle)
+        dunstctl set-paused toggle
+        ;;
+esac

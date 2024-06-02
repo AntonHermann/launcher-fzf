@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+source utils
+
+cd ~/mnt/ && \
+sudo mount /dev/sdb1 usb_backup && \
+sudo borg create --exclude-caches --exclude /tmp --exclude /sys --exclude /proc --exclude /home/anton/mnt --exclude /home/anton/.cache/yay --exclude /opt/Xilinx --exclude /var/cache/pacman --stats --progress usb_backup::main_$(date +%Y-%m-%d) /

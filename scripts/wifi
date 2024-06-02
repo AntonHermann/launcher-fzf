@@ -1,0 +1,34 @@
+#!/bin/zsh
+
+source utils
+
+# MONITOR_LIST=monitor.list
+
+# # read content of $CMD_LIST, expand them once (e), put them in $cmds
+# monitor=${(e)"$(<$DATA/$MONITOR_LIST)"}
+# # reformat $cmds: "  <symbol>  <text>;<cmd"
+# monitor=`printf %s $monitor | awk -F ';' '{ printf "%2s %-5s %s;%s\n", " ", $1, $2, $3}'`
+
+# declare -a wifis; wifis=( "${(f)"$(ls /etc/wpa_supplicant/)"}" )
+declare -a wifis
+ls /etc/wpa_supplicant/ | while read -r f; do
+    wifis+=("${${f#wpa_supplicant_}%.conf} /etc/wpa_supplicant/$f")
+done
+
+function fzfdelim {
+    fzf --bind 'tab:toggle+up,shift-tab:toggle+down,change:first' \
+        --delimiter=" " \
+        --with-nth=1 \
+        --preview="cat {2}" \
+        --tiebreak=length \
+        --prompt="$1 > " \
+        "${@:2}"
+}
+
+choice=`printf "%s\n" ${wifis} |\
+    fzfdelim "Wifi" |\
+    cut -d " " -f 2`
+
+i3-msg --quiet "floating toggle"
+i3-msg --quiet "move container to workspace 🖧"
+sudo wpa_supplicant -i wlp3s0 -c $choice

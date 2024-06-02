@@ -1,0 +1,20 @@
+;System metrics;[b] zenith
+ə;Insert IPA symbol;ipa
+🖴;Show disk usage (/);dust /
+🖴;Show disk usage (~);dust /
+;Open serial console;[i] echo TODO && read
+;WiFi;wifi
+;Bluetooth;[i] echo TODO && read
+;Monitor config;monitor
+󰹑;Screenshot;[i] echo TODO && read
+;Screen video capture;[i] echo TODO && read
+;Create Backup;[h] ./scripts/backup
+;$(./scripts/dunst print);dunst toggle
+;Pacman;pacman_select
+;Firefox;firefox
+;Reboot;systemctl reboot
+;Sleep;systemctl suspend
+;Switch colors to $(~/.config/dark_light_switch/other_icon.sh);~/.config/dark_light_switch/switch.sh
+󱞒;Ping;ping_multiple
+🕨;Pulsemixer;[i] pulsemixer
+;Show print jobs;firefox http://localhost:631/jobs/

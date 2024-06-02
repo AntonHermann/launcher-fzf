@@ -1,0 +1,30 @@
+#!/bin/zsh
+
+BASE=`dirname $(realpath $0)`
+DATA=$BASE/data
+SCRIPTS=$BASE/scripts
+UTILS=$BASE/utils
+
+TERM_OPTS=--hold
+function term () { kitty $TERM_OPTS "$@"; }
+function fterm () { kitty $TERM_OPTS --class=launcher "$@"; }
+
+function launch_hterm () { kitten @ launch --no-response --type=os-window --os-window-class=launcher --hold zsh -c "$@"; }
+function launch_fterm () { kitten @ launch --no-response --type=os-window --os-window-class=launcher zsh -c "$@"; }
+function launch_bfterm () { kitten @ launch --no-response --type=os-window --os-window-class=launcher_big zsh -c "$@"; }
+
+function fork () {
+    setsid --fork nohup $@ &> /dev/null
+}
+
+dark_light_mode=$(< ~/.config/dark_light_switch/current)
+if [[ "$dark_light_mode" == "light" ]]; then
+    export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=light"
+fi
+
+function fzfcmd {
+    fzf --bind 'tab:toggle+up,shift-tab:toggle+down,change:first' \
+        --tiebreak=begin \
+        --prompt="$1 > " \
+        "${@:2}"
+}

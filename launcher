@@ -1,0 +1,40 @@
+#!/bin/zsh
+
+source ./utils
+
+CMD_LIST=launcher_commands.list
+
+# read content of $CMD_LIST, expand them once (e), put them in $cmds
+cmds=${(e)"$(<$DATA/$CMD_LIST)"}
+# reformat $cmds: "  <symbol>  <text>;<cmd"
+cmds=`printf %s $cmds | awk -F ';' '{ printf "%2s %-5s %s;%s\n", " ", $1, $2, $3}'`
+
+choice=`printf "%s" $cmds |\
+     cut -d ";" -f 1 |\
+     fzfcmd "CMD"`
+
+if [ -n "$choice" ]; then
+    cmd=`printf "%s" $cmds |\
+        grep --color=never "$choice;" |\
+        cut -d ";" -f 2`
+
+    script=`echo "$cmd" | cut -d " " -f 1`
+
+    if [ -f $SCRIPTS/$script ]; then
+        zsh -c "$SCRIPTS/$cmd"
+    else
+        # if $cmd matches [i], remove [i] and run command via zsh
+        if [[ "$cmd" =~ "\[i\]" ]]; then
+            zsh -c "`echo $cmd | sed 's/^\[i\]//g'`"
+        # if $cmd matches [h], remove [h] and launch a window that stays open
+        elif [[ "$cmd" =~ "\[h\]" ]]; then
+            launch_hterm "`echo $cmd | sed 's/^\[h\]//g'`"
+        # if $cmd matches [b], remove [b] and launch a big floating window
+        elif [[ "$cmd" =~ "\[b\]" ]]; then
+            launch_bfterm "`echo $cmd | sed 's/^\[b\]//g'`"
+        else
+            # zsh -c "nohup setsid zsh -c 'source $UTILS; $cmd &' 2&>/dev/null"
+            fork zsh -c "source $UTILS; $cmd"
+        fi
+    fi
+fi

@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+# PING=gping
+PING=ping
+
+kitten @ goto-layout horizontal
+nohup kitten @ launch --no-response sh -c "$PING fu-berlin.de" &> /dev/null
+nohup kitten @ launch --no-response sh -c "$PING 8.8.8.8" &> /dev/null
